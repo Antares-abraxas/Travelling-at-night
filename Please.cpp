@@ -11,15 +11,13 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
-
  /**
   * @struct StoryNode
   * @brief Structure for representing a story node.
   */
 struct StoryNode {
-    string hint;                ///< The hint or message associated with the story node.
-    vector<StoryNode> nextNodes;///< The next story nodes to choose from.
+    std::string hint;                ///< The hint or message associated with the story node.
+    std::vector<StoryNode> nextNodes;///< The next story nodes to choose from.
     int enemyHealth;            ///< The health of the enemy in the story node.
 };
 
@@ -28,7 +26,7 @@ struct StoryNode {
  * @brief Structure for representing an inventory item.
  */
 struct InventoryItem {
-    string name;        ///< The name of the inventory item.
+    std::string name;        ///< The name of the inventory item.
     int damageBonus;    ///< The damage bonus provided by the item.
     int armorBonus;     ///< The armor bonus provided by the item.
     int healthBonus;    ///< The health bonus provided by the item.
@@ -70,8 +68,8 @@ StoryNode BuildStoryNode(const Json::Value& nodeData) {
  * @return The root story node.
  */
 
-StoryNode LoadStoryFromJSON(const string& filename) {
-    ifstream file(filename);
+StoryNode LoadStoryFromJSON(const std::string& filename) {
+    std::ifstream file(filename);
     Json::Value root;
     file >> root;
 
@@ -83,13 +81,12 @@ StoryNode LoadStoryFromJSON(const string& filename) {
  * @param inventory The player's inventory.
  */
 
-void RandomEvent(vector<InventoryItem>& inventory) {
+void RandomEvent(std::vector<InventoryItem>& inventory) {
     srand(time(0));
 
     int event = rand() % 3;
 
     if (event == 0) {
-        // Gain an item
         InventoryItem newItem;
         newItem.name = "Sword";
         newItem.damageBonus = 10;
@@ -98,18 +95,18 @@ void RandomEvent(vector<InventoryItem>& inventory) {
 
         inventory.push_back(newItem);
 
-        cout << "You found a sword and added it to your inventory!" << endl;
+        std::cout << "You found a sword and added it to your inventory!" << std::endl;
     }
     else if (event == 1) {
         if (!inventory.empty()) {
             int index = rand() % inventory.size();
             inventory.erase(inventory.begin() + index);
 
-            cout << "You lost a random item from your inventory!" << endl;
+            std::cout << "You lost a random item from your inventory!" << std::endl;
         }
     }
     else {
-        cout << "Nothing happens." << endl;
+        std::cout << "Nothing happens." << std::endl;
     }
 }
 
@@ -119,7 +116,7 @@ void RandomEvent(vector<InventoryItem>& inventory) {
  * @param inventory The player's inventory.
  * @param hero The main hero.
  */
-void Battle(int& enemyHealth, vector<InventoryItem>& inventory, Hero& hero) {
+void Battle(int& enemyHealth, std::vector<InventoryItem>& inventory, Hero& hero) {
     srand(time(0));
 
     int totalPlayerDamage = 2;
@@ -137,18 +134,18 @@ void Battle(int& enemyHealth, vector<InventoryItem>& inventory, Hero& hero) {
         if (enemyHealth > 0) {
             hero.health -= enemyDamage;
 
-            cout << "You attacked the enemy and dealt " << totalPlayerDamage << " damage." << endl;
-            cout << "The enemy attacked you and dealt " << enemyDamage << " damage." << endl;
-            cout << "Your health: " << hero.health << endl;
+            std::cout << "You attacked the enemy and dealt " << totalPlayerDamage << " damage." << std::endl;
+            std::cout << "The enemy attacked you and dealt " << enemyDamage << " damage." << std::endl;
+            std::cout << "Your health: " << hero.health << std::endl;
         }
     }
 
     if (hero.health <= 0) {
-        cout << "You lost the battle!" << endl;
+        std::cout << "You lost the battle!" << std::endl;
         return;
     }
 
-    cout << "Enemy defeated!" << endl;
+    std::cout << "Enemy defeated!" << std::endl;
 }
 
 /**
@@ -157,31 +154,31 @@ void Battle(int& enemyHealth, vector<InventoryItem>& inventory, Hero& hero) {
  * @param hero The main hero.
  */
 
-void UseHealthPotion(vector<InventoryItem>& inventory, Hero& hero) {
+void UseHealthPotion(std::vector<InventoryItem>& inventory, Hero& hero) {
     for (auto& item : inventory) {
         if (item.name == "Health Potion" && item.healthBonus > 0) {
             item.healthBonus--;
             hero.health += 20;
-            cout << "You used a health potion and restored some health!" << endl;
+            std::cout << "You used a health potion and restored some health!" << std::endl;
             return;
         }
     }
 
-    cout << "You don't have any health potions!" << endl;
+    std::cout << "You don't have any health potions!" << std::endl;
 }
 
 /**
  * @brief Function for displaying the inventory.
  * @param inventory The player's inventory.
  */
-void DisplayInventory(const vector<InventoryItem>& inventory) {
-    cout << "=== Inventory ===" << endl;
+void DisplayInventory(const std::vector<InventoryItem>& inventory) {
+    std::cout << "=== Inventory ===" << std::endl;
     for (const auto& item : inventory) {
-        cout << "Item: " << item.name << endl;
-        cout << "Damage Bonus: " << item.damageBonus << endl;
-        cout << "Armor Bonus: " << item.armorBonus << endl;
-        cout << "Health Bonus: " << item.healthBonus << endl;
-        cout << endl;
+        std::cout << "Item: " << item.name << std::endl;
+        std::cout << "Damage Bonus: " << item.damageBonus << std::endl;
+        std::cout << "Armor Bonus: " << item.armorBonus << std::endl;
+        std::cout << "Health Bonus: " << item.healthBonus << std::endl;
+        std::cout << std::endl;
     }
 }
 
@@ -191,16 +188,16 @@ void DisplayInventory(const vector<InventoryItem>& inventory) {
  * @param inventory The player's inventory.
  * @param hero The main hero.
  */
-void PlayStory(StoryNode& currentNode, vector<InventoryItem>& inventory, Hero& hero) {
-    cout << currentNode.hint << endl;
+void PlayStory(StoryNode& currentNode, std::vector<InventoryItem>& inventory, Hero& hero) {
+    std::cout << currentNode.hint << std::endl;
 
     if (currentNode.nextNodes.empty()) {
-        cout << "=== End of the game ===" << endl;
+        std::cout << "=== End of the game ===" << std::endl;
         return;
     }
 
     char choice;
-    cin >> choice;
+    std::cin >> choice;
 
     int choiceIndex = choice - 'A';
 
@@ -208,28 +205,24 @@ void PlayStory(StoryNode& currentNode, vector<InventoryItem>& inventory, Hero& h
         StoryNode& nextNode = currentNode.nextNodes[choiceIndex];
 
         if (nextNode.enemyHealth > 0) {
-            // Battle with the enemy
-            cout << "Engaging in battle with the enemy!" << endl;
+            std::cout << "Engaging in battle with the enemy!" << std::endl;
             Battle(nextNode.enemyHealth, inventory, hero);
         }
         else {
-            // Random event
             RandomEvent(inventory);
         }
         PlayStory(nextNode, inventory, hero);
     }
     else if (choice == 'H') {
-        // Use health potion
         UseHealthPotion(inventory, hero);
         PlayStory(currentNode, inventory, hero);
     }
     else if (choice == 'I') {
-        // Display inventory
         DisplayInventory(inventory);
         PlayStory(currentNode, inventory, hero);
     }
     else {
-        cout << "Invalid choice. Please try again." << endl;
+        std::cout << "Invalid choice. Please try again." << std::endl;
         PlayStory(currentNode, inventory, hero);
     }
 }
@@ -239,10 +232,10 @@ void PlayStory(StoryNode& currentNode, vector<InventoryItem>& inventory, Hero& h
  * @return Exit code.
  */
 int main() {
-    string filename = "story.json";  
+    std::string filename = "story.json";  
     StoryNode storyRoot = LoadStoryFromJSON(filename);
 
-    vector<InventoryItem> inventory;  
+    std::vector<InventoryItem> inventory;  
     Hero hero;
     hero.health = 100;  
     PlayStory(storyRoot, inventory, hero);
