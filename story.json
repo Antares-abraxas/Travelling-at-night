@@ -1,0 +1,72 @@
+{
+  "hint": "You are in an abandoned dungeon. The path ahead splits into two. Which way will you go? A)left B)right",
+  "choices": [
+    {
+      "hint": "You chose to go left...",
+      "choices": [
+        {
+          "hint": "You see a door with a lock. What will you do? A)try to open it B)bypass it",
+          "choices": [
+            {
+              "hint": "A little gremlin came out of the dark",
+              "enemyHealth": 20,
+              "choices": []
+            },
+            {
+              "hint": "You left the dungeon!",
+              "choices": []
+            }
+          ]
+        },
+        {
+          "hint": "You see a chest. What will you do? A) Open it B) Walk past it",
+          "choices": [
+            {
+              "hint": "Dragon comes out of the chest. You are doomed.",
+              "enemyHealth": 100,
+              "choices": []
+            },
+            {
+              "hint": "You fell in the pit.",
+              "choices": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "hint": "Go right",
+      "choices": [
+        {
+          "hint": "You see a trap. What will you do? A) Disable B)walk past it",
+          "choices": [
+            {
+              "hint": "Disable the trap",
+              "enemyHealth": 15,
+              "choices": []
+            },
+            {
+              "hint": "Walk past the trap",
+              "choices": []
+            }
+          ]
+        },
+        {
+          "hint": "You see a torch. What will you do? A) Take it B) Better not take it",
+          "choices": [
+            {
+              "hint": "Take the torch",
+              "enemyHealth": 5,
+              "choices": []
+            },
+            {
+              "hint": "Walk past the torch",
+              "choices": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
